@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="9·5등급 내신 위치 비교, 3학년 1학기 성적 시뮬레이션, 목표 내신 역산과 예상 누적비 참고 배치표.">
+  <title>9·5등급 내신 비교와 목표 설계 | ATAA</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/grades.css">
+  <script src="assets/grade-model.js" defer></script><script src="assets/grades.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="tool-header"><a class="brand" href="./"><strong>ATAA<span>.</span></strong><small>Admissions Atlas</small></a><a href="./#grade-planning">← 자료 지도</a></header>
+<main id="main" class="tool-main">
+  <section class="tool-intro">
+    <p class="eyebrow">2027 ↔ 2028 ADMISSIONS · GRADE PLANNING</p>
+    <h1>내신의 위치를 읽고,<br>다음 학기의 목표를 세웁니다.</h1>
+    <p class="description">9·5등급 내신 비교와 목표 설계<br>2027학년도 9등급제와 2028학년도 5등급제를 참고 구간으로 비교합니다.</p>
+    <div class="tags"><span>현재 위치</span><span>고3 1학기 시뮬레이션</span><span>목표 역산</span><span>누적비 배치표</span></div>
+    <p class="notice">여기서 누적비는 <strong>성적이 좋은 쪽부터 해당 내신까지의 누적 비율</strong>입니다. 실측은 경기 협력교 표본, 예상은 세미나의 5학기 예측입니다. 대학·학과별 합격선이나 합격 확률을 뜻하지 않습니다.</p>
+  </section>
+  <nav class="tool-nav" aria-label="계산 도구"><a href="#position">01 현재 위치</a><a href="#semester">02 고3 1학기</a><a href="#target">03 목표 역산</a><a href="#placement">04 참고 배치표</a></nav>
+
+  <section id="position" class="tool-section">
+    <div class="section-title"><span class="step">01</span><div><h2>현재 내신의 위치 비교</h2><p>내신 평균이 각 자료의 어느 구간에 해당하는지 살펴봅니다.</p></div></div>
+    <div class="workspace">
+      <form id="position-form" class="panel" novalidate>
+        <label for="position-system">입력할 내신 체제</label><select id="position-system"><option value="5">5등급제</option><option value="9">9등급제</option></select>
+        <label for="position-grade">평균 내신</label><input id="position-grade" type="number" min="1" max="5" step="any" value="2.00" inputmode="decimal" required>
+        <label for="position-basis">비교할 자료</label><select id="position-basis"><option value="observed">실측 · 2학년 1학기까지 (경기)</option><option value="forecast">예측 · 3학년 1학기까지 (5학기)</option></select>
+        <p class="help">실측과 비교하려면 국영수사과 석차등급의 단순 평균을 입력하세요. 다른 교과 범위나 학점 가중 평균은 같은 기준이 아닙니다.</p>
+        <button type="submit">내신 위치 확인 →</button>
+      </form>
+      <div id="position-result" class="panel result" role="status" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </section>
+
+  <section id="semester" class="tool-section">
+    <div class="section-title"><span class="step">02</span><div><h2>3학년 1학기 성적 시뮬레이션</h2><p>2학년 2학기까지의 성적에 마지막 한 학기를 더합니다.</p></div></div>
+    <div class="workspace">
+      <form id="semester-form" class="panel" novalidate>
+        <label for="weight-mode">계산 방식</label><select id="weight-mode"><option value="courses">과목 수 · 단순 평균</option><option value="credits">학점 수 · 가중 평균</option></select>
+        <div class="input-grid"><div><label for="current-grade">고2 2학기까지 누적 내신</label><input id="current-grade" type="number" min="1" max="5" step="any" value="1.50" inputmode="decimal" required></div><div><label for="current-weight" id="current-weight-label">기존 반영 과목 수</label><input id="current-weight" type="number" min="1" max="500" step="1" value="26" required></div></div>
+        <label for="future-weight" id="future-weight-label">고3 1학기 반영 과목 수</label><input id="future-weight" type="number" min="1" max="100" step="1" value="7" required>
+        <label for="future-grade">고3 1학기 예상 평균 내신</label><div class="range-pair"><input id="future-range" type="range" min="1" max="5" step="0.01" value="2" aria-label="고3 1학기 예상 평균 조절"><input id="future-grade" type="number" min="1" max="5" step="any" value="2.00" inputmode="decimal" required></div>
+        <p class="help" id="weight-help">현재·예상 내신은 같은 반영 교과 범위의 단순 평균이어야 합니다. 석차등급 없는 과목은 포함하지 마세요. 과목마다 따로 평균을 내며 학기 평균끼리 단순히 더하지 않습니다.</p>
+        <button type="submit">최종 내신 계산 →</button><p class="help">계산 결과는 목표 역산과 배치표 강조에 함께 반영됩니다. 입력은 서버에 저장되지 않습니다.</p>
+      </form>
+      <div id="semester-result" class="panel result" role="status" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </section>
+
+  <section id="target" class="tool-section">
+    <div class="section-title"><span class="step">03</span><div><h2>목표 내신 역산</h2><p>원하는 최종 내신에 도달하기 위한 고3 1학기 성적을 계산합니다.</p></div></div>
+    <div class="workspace">
+      <form id="target-form" class="panel" novalidate>
+        <p class="context" id="target-context"></p>
+        <label for="target-grade">목표 최종 내신 (이하)</label><input id="target-grade" type="number" min="1" max="5" step="any" value="1.70" inputmode="decimal" required>
+        <p class="help">위 시뮬레이션의 고2 누적 내신·반영 과목 수/학점을 공유합니다. 목표는 대학 합격선이 아닌 본인의 성적 목표입니다.</p>
+        <button type="submit">필요한 성적 계산 →</button>
+      </form>
+      <div id="target-result" class="panel result" role="status" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </section>
+
+  <section id="placement" class="tool-section">
+    <div class="section-title"><span class="step">04</span><div><h2>9·5등급 내신 참고 배치표</h2><p>누적비를 기준으로 읽는 내신 구간표입니다. 대학·학과는 임의로 배치하지 않습니다.</p></div></div>
+    <div class="panel">
+      <div class="table-controls"><div><label for="table-basis">배치표 자료</label><select id="table-basis"><option value="forecast">5학기 예상 누적비 · 상위 1~30%</option><option value="observed">경기 3학기 실측 누적비 · 전체 구간</option></select></div><div><label for="table-highlight">강조할 5등급제 내신</label><input id="table-highlight" type="number" min="1" max="5" step="any" value="1.606" inputmode="decimal"></div><button id="apply-simulation" type="button" class="secondary">시뮬레이션 결과 적용</button></div>
+      <p id="table-description" class="help"></p><p id="table-status" class="context" role="status"></p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="누적비 참고 배치표, 좁은 화면에서는 좌우로 스크롤"><table id="placement-table"><caption id="table-caption"></caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+      <p class="help">강조된 행은 입력한 내신이 해당하는 자료 구간입니다. 여러 예측 구간이 겹칠 수 있으며, 구간의 폭은 통계적 신뢰구간이 아닙니다.</p>
+    </div>
+  </section>
+
+  <section id="method" class="tool-section methods">
+    <h2>자료와 계산 기준</h2>
+    <details open><summary>실측과 예측은 어떻게 다른가요?</summary><p><strong>실측:</strong> 경기진협 협력교 2026학년도 고2 106개교·26,511명의 2학년 1학기까지 국영수사과 단순 평균 분포입니다. 대응 9등급제 값은 별도 2025학년도 고3 표본 13,896명의 누적비에 대한 추정치입니다. 국가 전체의 석차가 아닙니다. 표 사이 입력값은 두 경계의 범위로 표시하며 선형 보간하지 않습니다.</p><p><strong>예측:</strong> 윤희태 선생님 세미나 원고 53쪽의 5학기 AI 예측 조견표입니다. 선택과목·수강자 수·계열별 변화 등을 가정한 예측이며, 실제 2028학년도 입결이 아닙니다. 원고에 있는 상위 1~30% 구간만 표시합니다. 표의 ‘백분위’는 여기에서 상위 누적비로 표기했습니다. 겹치는 등급 범위에 해당하는 행의 누적비와 대응 등급을 묶어 보여줍니다. 양 끝에서는 자료 밖 범위까지 판단할 수 없습니다.</p><p>경기 자료는 학기별 참여 학교·학생 수가 다릅니다. 서울 표본은 과학·사회 이수 과목 수로 계열을 분류하며 자사고·과학중점학교 등이 포함됩니다. 분포 변화만으로 특정 학생의 성적 하락 확률을 계산하지 않습니다.</p></details>
+    <details><summary>최종 평균과 목표 역산 공식</summary><p>최종 평균 = (고2까지 평균 × 기존 반영량 + 고3 1학기 평균 × 추가 반영량) ÷ 전체 반영량.</p><p>필요한 고3 평균 = (목표 평균 × 전체 반영량 − 고2까지 평균 × 기존 반영량) ÷ 추가 반영량. 낮은 등급 숫자가 더 좋은 성적입니다. 목표 이하가 되는 최대 평균을 계산합니다. 표시값은 반올림되어 있으므로 세부 조건은 반올림 전 값으로 판단합니다.</p><p>단순 평균에서는 반영량이 과목 수, 가중 평균에서는 반영량이 학점 합입니다. 대학별 등급 환산점수·성취도 대체·상위 과목 선별·서류평가·수능최저는 이 계산에 포함되지 않습니다. 학점 가중 결과에는 단순 평균 자료의 누적비를 연결하지 않습니다.</p></details>
+    <details><summary>출처 및 해석 범위</summary><ul><li>경기진학지도협의회 자료개발국, 「경기진협 협력교 2026학년도 2학년 성적 분석 자료」(0922 최종), 1~4쪽: 실측 분포·대응 9등급·표본과 해석 제한.</li><li>윤희태(영동일고), 「2028대입 내신 5등급제 심층 분석」, 서울중등진학지도연구회 세미나, 2026-09-30, 35~57쪽: 성적 변화·5학기 예측·목표 범위와 반영 방식.</li><li>정태영(한가람고), 「2026학년도 서울중등진학지도연구회 하반기 세미나 강의록」, 2026-09-30, 2~4쪽: 위 강의의 요약과 진학지도 시사점. 독립 표본으로 합산하지 않음.</li><li><a href="https://www.moe.go.kr/boardCnts/viewRenew.do?boardID=294&amp;boardSeq=103113&amp;lev=0&amp;m=020402" target="_blank" rel="noopener">교육부 2028학년도 대입 개편 안내 ↗</a></li></ul><p>자료 확인·도구 작성: 2026-10-06. 원문 PDF 및 학생 자료는 게시하지 않았습니다. 동일 누적비는 동일 합격 가능성을 뜻하지 않으며, 대학별 모집요강과 반영 기준을 함께 확인해야 합니다.</p></details>
+  </section>
+  <noscript><p class="notice">계산과 배치표를 사용하려면 JavaScript를 켜 주세요.</p></noscript>
+  <footer><span>ATAA · 내신 비교와 목표 설계</span><a href="./">자료 지도로 돌아가기 ↑</a></footer>
+</main>
+</body>
+</html>
