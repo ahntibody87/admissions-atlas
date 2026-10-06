@@ -81,7 +81,7 @@
         // Floor the displayed ceiling so it never recommends a value above the actual target boundary.
         const safe=Math.floor((r.value+1e-10)*1000)/1000;
         paragraph(box,`${f(safe,3)} 이하`,'result-number');
-        paragraph(box,'목표를 넘지 않도록 소수점 셋째 자리에서 버림한 값입니다. 이보다 등급 숫자가 작으면 목표에 도달합니다.','help');
+        paragraph(box,'목표를 넘지 않도록 소수점 셋째 자리까지 남기고 버림한 값입니다. 이보다 등급 숫자가 작으면 목표에 도달합니다.','help');
         if(mode==='courses') {
           const base=Math.min(4,Math.floor(r.value+1e-9)),worse=Math.min(fw,Math.floor((r.value-base)*fw+1e-9));
           const example=(base*(fw-worse)+(base+1)*worse)/fw;
@@ -134,3 +134,4 @@
   });
   modeLabels();updatePosition();updateSemester();
 })();
+
