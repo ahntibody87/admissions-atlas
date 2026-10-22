@@ -8,7 +8,8 @@
 - 자료는 대화에서 받아 분석하고 알맞은 메뉴에 반영합니다. 원본 업로드 자체를 인터넷 원문 재배포 허가로 간주하지 않습니다.
 - 분석의 출처·학년도·확인일을 기록하고 사실과 해석, 시뮬레이션의 가정을 구분합니다.
 - 메인은 index.html + assets/landing.css + assets/landing.js이며 메인 탐색 메뉴는 위쪽·지도·아래쪽을 함께 맞춥니다.
-- 내부 메뉴·배너·목록은 explore/index.html과 assets/content.js에서 확장합니다. 내부 배너 디자인은 별도 요청 때 수정합니다.
+- 내부 페이지는 `assets/analysis.css`의 화이트·블루 색상, Pretendard 글꼴, 공통 제목·카드·푸터와 `assets/site-header.css`의 상단 헤더를 공유합니다. 01~04는 각각 `grades/`, `archive/`, `analysis/`, `simulation/`입니다.
+- `explore/`는 같은 디자인의 탐색 안내이며, 예전 `#archive`, `#simulation`, `#analysis`, `#grade-planning` 링크는 해당 독립 페이지로 이동합니다. 자료와 도구 목록은 `assets/content.js`에서 관리하고 `assets/app.js`가 표시합니다.
 - 내신 설계의 기본 주소는 /admissions-atlas/grades/입니다. grades.html은 이전 주소 호환을 위한 이동 페이지로 유지합니다.
 - 메인 푸터의 LAST UPDATED는 요청된 실제 변경 날짜를 수동으로 반영합니다.
 - 데스크톱 메인은 브라우저 100% 배율에서 상단 메뉴·하단 네 메뉴·LAST UPDATED까지 한 화면에 표시합니다. 화면 높이를 넘기는 최소 높이나 전체 확대/축소로 해결하지 않습니다. 지도 배경의 오른쪽 잘림은 유지하되 Start와 네 지점은 보이는 영역 안에 둡니다.

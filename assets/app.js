@@ -1,61 +1,38 @@
 (() => {
   'use strict';
-  const content = window.ATAA_CONTENT;
-  const nav = document.querySelector('#section-navigation');
-  const collections = document.querySelector('#collections');
-  function el(tag, className, text) {
+  const container = document.querySelector('#resources[data-section]');
+  if (!container || !window.ATAA_CONTENT) return;
+  const section = window.ATAA_CONTENT.sections.find(item => item.id === container.dataset.section);
+  if (!section) return;
+  const count = document.querySelector('#resource-count');
+  if (count) count.textContent = `${section.items.length}개`;
+  // The static HTML remains useful when this collection is empty or JS is disabled.
+  if (!section.items.length) return;
+  const fragment = document.createDocumentFragment();
+  const el = (tag, className, text) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (text != null) node.textContent = text;
     return node;
-  }
-  function link(text, href, className) {
-    const node = el('a', className, text);
-    const url = new URL(href, window.location.href);
-    if (['https:', 'http:'].includes(url.protocol)) node.href = url.href;
-    return node;
-  }
-  content.sections.forEach(section => {
-    if (!/^[a-z][a-z0-9-]*$/.test(section.id)) return;
-    nav.append(link(section.label, '#' + section.id));
-    const block = el('section', 'collection'); block.id = section.id;
-    const heading = el('div', 'section-heading');
-    const titles = el('div');
-    titles.append(el('p', 'eyebrow', section.english), el('h2', '', section.label));
-    heading.append(titles, el('span', 'count', section.items.length + '개'));
-    block.append(heading, el('p', 'section-description', section.description));
-    if (!section.items.length) block.append(el('p', 'empty', section.empty));
-    else {
-      const list = el('div', 'resource-list');
-      section.items.forEach(item => {
-        const card = el('article', 'resource');
-        if (item.year) card.append(el('span', 'year', item.year + '학년도'));
-        const h3 = el('h3'); h3.append(link(item.title, item.href)); card.append(h3);
-        if (item.description) card.append(el('p', '', item.description));
-        const details = [item.source && '출처: ' + item.source, item.updated && '확인: ' + item.updated].filter(Boolean);
-        if (details.length) card.append(el('small', 'metadata', details.join(' · ')));
-        list.append(card);
-      });
-      block.append(list);
-    }
-    collections.append(block);
+  };
+  section.items.forEach((item, index) => {
+    const url = new URL(item.href, location.href);
+    if (!['http:', 'https:'].includes(url.protocol)) return;
+    const card = el('a', 'university-card resource-card');
+    card.href = url.href;
+    const label = el('div', 'university-label');
+    label.append(el('span', '', item.category || item.source || section.label), el('span', '', item.year || ''));
+    const number = el('div', 'tool-monogram', String(index + 1).padStart(2, '0'));
+    number.setAttribute('aria-hidden', 'true');
+    card.append(label, number, el('h2', '', item.title), el('p', '', item.description));
+    if (item.updated) card.append(el('small', 'resource-meta', '자료 확인 · ' + item.updated));
+    const bottom = el('div', 'card-bottom');
+    const arrow = el('span', 'card-arrow', '→');
+    arrow.setAttribute('aria-hidden', 'true');
+    bottom.append(el('span', '', item.linkLabel || '자료 열기'), arrow);
+    card.append(bottom);
+    fragment.append(card);
   });
-  const banners = document.querySelector('#banners');
-  content.banners.forEach(item => {
-    const banner = el('article', 'banner');
-    banner.append(el('h2', '', item.title), el('p', '', item.description));
-    if (item.href) banner.append(link(item.linkLabel || '자세히 보기 →', item.href));
-    banners.append(banner);
-  });
-  banners.hidden = !content.banners.length;
-  const button = document.querySelector('#menu-button');
-  const navigation = document.querySelector('#navigation');
-  function setMenu(open) {
-    button.setAttribute('aria-expanded', String(open));
-    button.textContent = open ? '메뉴 닫기' : '메뉴 열기';
-    navigation.classList.toggle('open', open);
-  }
-  button.addEventListener('click', () => setMenu(button.getAttribute('aria-expanded') !== 'true'));
-  navigation.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') setMenu(false); });
+  container.classList.add('resource-grid');
+  container.replaceChildren(fragment);
 })();
