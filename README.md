@@ -14,7 +14,7 @@
 
 ## 메뉴·배너 확장
 
-메인은 아이보리·청록 아틀라스 디자인의 진입 화면입니다. 내신 설계는 `grades/`, 기존 자료실과 내부 배너는 `explore/`에 있습니다. 자료 아카이브·전형 분석·시뮬레이션 메뉴는 각각 `explore/#archive`, `explore/#analysis`, `explore/#simulation`으로 연결됩니다. 현재 자료가 없는 분야는 기존 빈 목록을 보여줍니다.
+메인은 아이보리·청록 아틀라스 디자인의 진입 화면입니다. 내신 설계는 `grades/`, 기존 자료실과 내부 배너는 `explore/`에 있습니다. 자료 아카이브·전형 분석·시뮬레이션 메뉴는 각각 `explore/#archive`, `analysis/`, `explore/#simulation`으로 연결됩니다. 현재 자료가 없는 분야는 기존 빈 목록을 보여줍니다.
 
 - `index.html`, `assets/landing.css`, `assets/landing.js`: 메인, 반응형 메뉴, 지도 경로 애니메이션, 사이트 소개 대화상자. 동작 줄이기 설정에서는 애니메이션을 끕니다.
 - `assets/atlas-terrain.svg`, `assets/compass.svg`: 실제 지리를 나타내지 않는 탐색용 지도와 나침반 그래픽.
@@ -48,3 +48,13 @@
 - 계산 검증: `node tests/grade-model.test.cjs`.
 
 이 사이트는 생명과학 홈페이지와 독립된 저장소이며 기존 사이트는 수정하지 않습니다.
+
+## 대학별 전형 분석
+
+- 목록: https://ahntibody87.github.io/admissions-atlas/analysis/
+- 건국대: https://ahntibody87.github.io/admissions-atlas/analysis/konkuk/
+- `assets/site-header.css`: 메인·분석 페이지의 동일한 상단 헤더 좌표. 본문 스크롤바 유무와 무관하게 뷰포트 단위로 정렬합니다.
+- `assets/analysis.css`, `assets/analysis.js`: 클린 화이트, 연도별 모집인원 전환, 모집단위 검색·필터·연도 비교.
+- `assets/konkuk-data.js`: 제공된 건국대 이미지 5장의 수치와 비교 기준. 원본 이미지는 재배포하지 않습니다.
+- 모집단위 49개, 핵심 4개 전형 합계 검증: `node tests/konkuk-data.test.cjs`.
+- `assets/fonts/PretendardVariable.woff2`: Pretendard 가변 글꼴. 라이선스는 `Pretendard-LICENSE.txt`.
