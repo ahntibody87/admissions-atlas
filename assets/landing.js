@@ -6,12 +6,13 @@
   const map = document.querySelector('.map-art');
   const network = document.querySelector('.map-network');
   const fitMap = () => {
+    if (!hero || !map || !network) return;
     const scale = map.getBoundingClientRect().width / 1000;
     const shift = matchMedia('(min-width: 701px)').matches && scale > 0
       ? Math.min(0, (hero.clientHeight - 55) / scale - 590) : 0;
     network.setAttribute('transform', `translate(0 ${shift.toFixed(2)})`);
   };
-  new ResizeObserver(fitMap).observe(hero);
+  if (hero && network) new ResizeObserver(fitMap).observe(hero);
   fitMap();
   const toggle = document.querySelector('.menu-toggle');
   const navigation = document.querySelector('#navigation');
