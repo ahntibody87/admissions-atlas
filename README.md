@@ -60,3 +60,18 @@
 - `assets/konkuk-data.js`: 제공된 건국대 이미지 5장의 수치와 비교 기준. 원본 이미지는 재배포하지 않습니다.
 - 모집단위 49개, 핵심 4개 전형 합계 검증: `node tests/konkuk-data.test.cjs`.
 - `assets/fonts/PretendardVariable.woff2`: Pretendard 가변 글꼴. 라이선스는 `Pretendard-LICENSE.txt`.
+
+### 29개 대학 확장 (2026.10.22)
+
+전형 분석 목록에 29개 대학을 수록하고 대학 이름 검색을 추가했습니다. 각 대학은 건국대와 같은 다섯 항목(주요 내용, 전형별 기준, 수능 반영, 모집단위, 출처·비교 기준)과 연도 전환·검색·변경 항목 필터를 제공합니다.
+
+- 건국대의 기존 HTML·데이터·상호작용은 유지합니다.
+- 추가 28개 대학 데이터: `assets/universities/<slug>.json`. 각 파일에 모집단위·전형 기준·독립적으로 대조한 원본 열 합계·비교 범위·확인한 제공 자료명을 기록했습니다.
+- 추가 대학 상호작용: `assets/university-analysis.js`. 대학별 열 수와 전형 이름을 반영하며 검색 결과 합계도 다시 계산합니다.
+- 추가 스타일과 목록 검색: `assets/university-analysis.css`, `assets/university-index.js`. 기존 `analysis.css` 및 공통 헤더를 사용합니다.
+- 2028 모집단위는 건국대 포함 1,788개입니다. 원본 이미지·압축 파일은 공개 저장소에 넣지 않습니다.
+- 서울대 표는 비교 자료의 78개 핵심 모집단위 기준입니다. 연세대·충남대에는 제공 자료의 2027 모집단위별 표가 없어 비교 화면에 전형별 인원을 표시합니다. 세종대·중앙대의 제공 모집단위 표에는 모집군 열이 없어 그 필터를 비활성화합니다.
+- 한국외대의 2028 모집단위 이미지는 합계가 잘려 있어 개별 행 합계와 전형 개요·비교 자료를 대조했습니다. 연세대 전기전자공학부의 원본 총원/전형별 합계 차이는 해당 페이지에 기록했습니다.
+- 검증: `node tests/university-data.test.cjs`, `node tests/konkuk-data.test.cjs`, `node tests/grade-model.test.cjs`.
+
+
