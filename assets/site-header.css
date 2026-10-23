@@ -21,3 +21,11 @@ html{overflow-x:clip}
  .site-header nav.open{display:grid;grid-template-columns:1fr 1fr}.site-header nav a{padding:14px;font-size:13px}.site-header nav a:after{display:none}
 }
 @media(prefers-reduced-motion:reduce){.site-header nav a:after{transition:none}}
+
+/* Default invariant: identical header geometry on every ATAA route. */
+html{scrollbar-gutter:stable}
+body .site-header{width:100%;line-height:1.5;flex-shrink:0}
+.site-header .wordmark{flex:none;line-height:1}
+.site-header .wordmark>span{display:block;width:114px;line-height:1}
+.site-header nav a{margin:0;border-radius:0;background:transparent;line-height:1.5;white-space:nowrap}
+@media(max-width:700px){.site-header .wordmark>span{width:98px}.site-header .menu-toggle{line-height:1.5}}

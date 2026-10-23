@@ -8,9 +8,17 @@
   const fitMap = () => {
     if (!hero || !map || !network) return;
     const scale = map.getBoundingClientRect().width / 1000;
-    const shift = matchMedia('(min-width: 701px)').matches && scale > 0
-      ? Math.min(0, (hero.clientHeight - 55) / scale - 590) : 0;
-    network.setAttribute('transform', `translate(0 ${shift.toFixed(2)})`);
+    if (!matchMedia('(min-width: 701px)').matches || scale <= 0) {
+      network.removeAttribute('transform');
+      return;
+    }
+    const bounds = network.getBBox();
+    const fit = Math.min(1, Math.max(1, hero.clientHeight - 90) / (scale * bounds.height));
+    const shift = Math.max(24 / scale - fit * bounds.y,
+      Math.min(0, (hero.clientHeight - 66) / scale - fit * (bounds.y + bounds.height)));
+    // Shrink uniformly around the right edge on short, wide screens. Translating
+    // alone can push Grade Planning above the hero while keeping the last stop in view.
+    network.setAttribute('transform', `translate(${((1 - fit) * 900).toFixed(2)} ${shift.toFixed(2)}) scale(${fit.toFixed(4)})`);
   };
   if (hero && network) new ResizeObserver(fitMap).observe(hero);
   fitMap();
