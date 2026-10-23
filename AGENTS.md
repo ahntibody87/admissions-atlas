@@ -25,3 +25,5 @@
 - 대학별 `expectedCurrent` 및 `totals[year].core`는 원본의 열 합계입니다. 자료 변경 후 `node tests/university-data.test.cjs`와 기존 건국대·내신 계산 검사를 실행합니다. 원본 이미지·압축 자료를 공개 저장소에 추가하지 않습니다.
 
 
+
+- 목표 설계 입구는 goals/, 수시 설계는 기존 grades/, 정시 설계는 regular/입니다. 정시 비교는 연수 자료 27쪽의 건국대 4개 원점수 사례만 사용하며 최신 합격선으로 표시하지 않습니다.

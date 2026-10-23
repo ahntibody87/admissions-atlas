@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
- <meta name="description" content="ATAA — Ahntibody’s Admissions Atlas. 내신 설계, 대입 자료 아카이브, 전형 분석과 시뮬레이션.">
+ <meta name="description" content="ATAA — Ahntibody’s Admissions Atlas. 목표 설계, 대입 자료 아카이브, 전형 분석과 시뮬레이션.">
  <meta name="theme-color" content="#f7f5ee">
  <title>ATAA | Ahntibody’s Admissions Atlas</title>
  <link rel="canonical" href="https://ahntibody87.github.io/admissions-atlas/">
@@ -16,7 +16,7 @@
   <a class="wordmark" href="./" aria-label="ATAA 홈"><svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="37"/><circle cx="50" cy="50" r="4"/><path d="M50 3V97M3 50H97M20 20L80 80M20 80L80 20" opacity=".5"/><path d="M50 13L57 43L87 50L57 57L50 87L43 57L13 50L43 43Z" fill="var(--paper)"/><path d="M50 13L50 50L57 43ZM87 50L50 50L57 57ZM50 87L50 50L43 57ZM13 50L50 50L43 43Z" fill="var(--copper)" stroke="none"/></svg><span>ATAA</span></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="navigation">메뉴 열기 <span aria-hidden="true">＋</span></button>
   <nav id="navigation" aria-label="주 메뉴">
-   <a href="grades/">내신 설계</a><a href="archive/">자료 아카이브</a><a href="analysis/">전형 분석</a><a href="simulation/">시뮬레이션</a>
+   <a href="goals/">목표 설계</a><a href="archive/">자료 아카이브</a><a href="analysis/">전형 분석</a><a href="simulation/">시뮬레이션</a>
   </nav>
  </header>
  <main id="main">
@@ -30,7 +30,7 @@
    </div>
    <div class="map-window"><div class="atlas-map">
     <svg class="map-art" viewBox="0 0 1000 800" aria-labelledby="map-title map-description">
-     <title id="map-title">Admissions Atlas</title><desc id="map-description">Start에서 내신 설계, 자료 아카이브, 전형 분석, 시뮬레이션으로 이어지는 탐색 지도. 각 지점을 선택하면 해당 페이지로 이동합니다.</desc>
+     <title id="map-title">Admissions Atlas</title><desc id="map-description">Start에서 목표 설계, 자료 아카이브, 전형 분석, 시뮬레이션으로 이어지는 탐색 지도. 각 지점을 선택하면 해당 페이지로 이동합니다.</desc>
      <defs><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fcfaf4" stop-opacity=".7"/><stop offset="1" stop-color="#ebe9dd" stop-opacity=".24"/></linearGradient><marker id="arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#b17c53"/></marker></defs>
      <g class="map-sheets" aria-hidden="true"><path d="M139 83L1000 164V800L0 708Z"/><path d="M172 55L1000 139V792L15 686Z"/><path class="front-sheet" d="M205 28L1000 115V780L30 660Z"/></g>
      <image href="assets/atlas-terrain.svg" width="1000" height="800" aria-hidden="true"/>
@@ -45,7 +45,7 @@
       <path class="route route-dotted" pathLength="1" d="M420 255C404 210 445 207 474 177M700 520C756 574 814 573 870 580M879 345C862 281 936 288 953 215"/>
      </g>
      <g class="origin" aria-hidden="true"><path d="M183 447L235 500"/><rect x="144" y="409" width="88" height="35" rx="6"/><text x="188" y="432" text-anchor="middle">Start</text><circle cx="235" cy="500" r="11"/><circle class="origin-dot" cx="235" cy="500" r="6"/></g>
-     <a class="map-stop" href="grades/" aria-label="내신 설계" data-map-stop="Grade Planning"><circle class="stop-halo" cx="420" cy="255" r="21"/><circle class="stop-ring" cx="420" cy="255" r="10"/><circle class="stop-dot" cx="420" cy="255" r="5.8"/><text class="stop-label" x="441" y="260" text-anchor="start">Grade Planning</text><g class="map-tooltip" transform="translate(390,280)"><rect width="235" height="43" rx="4"/><text x="13" y="27">내신 비교와 목표 설계</text></g></a>
+     <a class="map-stop" href="goals/" aria-label="목표 설계" data-map-stop="Grade Planning"><circle class="stop-halo" cx="420" cy="255" r="21"/><circle class="stop-ring" cx="420" cy="255" r="10"/><circle class="stop-dot" cx="420" cy="255" r="5.8"/><text class="stop-label" x="441" y="260" text-anchor="start">Grade Planning</text><g class="map-tooltip" transform="translate(390,280)"><rect width="235" height="43" rx="4"/><text x="13" y="27">내신 비교와 목표 설계</text></g></a>
      <a class="map-stop" href="archive/" aria-label="자료 아카이브" data-map-stop="Archive"><circle class="stop-halo" cx="525" cy="410" r="21"/><circle class="stop-ring" cx="525" cy="410" r="10"/><circle class="stop-dot" cx="525" cy="410" r="5.8"/><text class="stop-label" x="546" y="415" text-anchor="start">Archive</text><g class="map-tooltip" transform="translate(495,435)"><rect width="235" height="43" rx="4"/><text x="13" y="27">모집요강과 전형 자료</text></g></a>
      <a class="map-stop" href="analysis/" aria-label="전형 분석" data-map-stop="Admissions Analysis"><circle class="stop-halo" cx="700" cy="520" r="21"/><circle class="stop-ring" cx="700" cy="520" r="10"/><circle class="stop-dot" cx="700" cy="520" r="5.8"/><text class="stop-label" x="679" y="525" text-anchor="end">Admissions Analysis</text><g class="map-tooltip" transform="translate(540,545)"><rect width="235" height="43" rx="4"/><text x="13" y="27">전형의 차이와 변화 비교</text></g></a>
      <a class="map-stop" href="simulation/" aria-label="시뮬레이션" data-map-stop="Simulation"><circle class="stop-halo" cx="879" cy="345" r="21"/><circle class="stop-ring" cx="879" cy="345" r="10"/><circle class="stop-dot" cx="879" cy="345" r="5.8"/><text class="stop-label" x="858" y="350" text-anchor="end">Simulation</text><g class="map-tooltip" transform="translate(600,370)"><rect width="235" height="43" rx="4"/><text x="13" y="27">조건에 따른 결과 탐색</text></g></a>
@@ -54,12 +54,12 @@
    </div></div>
   </section>
   <nav class="destinations" id="destinations" aria-label="탐색 분야">
-   <a href="grades/"><span class="index">01</span><span>내신 설계</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
+   <a href="goals/"><span class="index">01</span><span>목표 설계</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
    <a href="archive/"><span class="index">02</span><span>자료 아카이브</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
    <a href="analysis/"><span class="index">03</span><span>전형 분석</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
    <a href="simulation/"><span class="index">04</span><span>시뮬레이션</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
   </nav>
  </main>
  <footer class="site-footer"><span>LAST UPDATED <time datetime="2026-10-23">Oct 23, 2026</time></span><span class="signature">AHNTIBODY</span></footer>
- <dialog id="about-dialog" aria-labelledby="about-title"><form method="dialog"><button class="dialog-close" aria-label="사이트 소개 닫기" autofocus>닫기 ×</button></form><p class="eyebrow">ABOUT THE ATLAS</p><h2 id="about-title">Ahntibody’s<br>Admissions Atlas</h2><p>대입 자료를 모아 정리하고, 전형과 데이터를 비교하며 다양한 조건을 살펴보는 개인 자료·분석 공간입니다.</p><p>내신 설계 도구부터 시작해 자료 아카이브, 전형 분석과 시뮬레이션을 차례로 채워갑니다.</p><a class="about-link" href="explore/">자료실 둘러보기 ⟶</a></dialog>
+ <dialog id="about-dialog" aria-labelledby="about-title"><form method="dialog"><button class="dialog-close" aria-label="사이트 소개 닫기" autofocus>닫기 ×</button></form><p class="eyebrow">ABOUT THE ATLAS</p><h2 id="about-title">Ahntibody’s<br>Admissions Atlas</h2><p>대입 자료를 모아 정리하고, 전형과 데이터를 비교하며 다양한 조건을 살펴보는 개인 자료·분석 공간입니다.</p><p>목표 설계 도구부터 시작해 자료 아카이브, 전형 분석과 시뮬레이션을 차례로 채워갑니다.</p><a class="about-link" href="explore/">자료실 둘러보기 ⟶</a></dialog>
 </body></html>
