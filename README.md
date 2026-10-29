@@ -41,13 +41,13 @@
 ## 내신 비교와 목표 설계
 
 - 공개 도구: https://ahntibody87.github.io/admissions-atlas/grades/
-- `grades/index.html`, `assets/grades.css`, `assets/grades.js`: 위치 비교 / 고3 1학기 시뮬레이션 / 목표 역산 / 누적비 참고 배치표.
+- `grades/index.html`, `assets/grades.css`, `assets/grades.js`: 01 내신 환산 분석기 / 02 목표 성적 시뮬레이션 / 03 내신 비교표.
 - 이전 `grades.html` 주소는 검색 매개변수와 섹션 위치를 유지하며 새 주소로 이동합니다. JavaScript가 꺼져 있어도 새 주소 링크를 제공합니다.
 - `assets/grade-model.js`: 기존 원표와 내신 합산·목표 역산 함수. `assets/grade-prediction.js`: 경기·부산·서울 자료를 활용한 3학기·5학기 예측 모델.
-- 1.00~5.00 전체에서 9등급 추정값·추정 구간·누적비를 비교합니다. 서울 누락 구간은 표본 수를 유지하며 보정합니다. 전국 실측 순위나 대학 합격선이 아닙니다. 학점 가중 시뮬레이션에는 추정 누적비를 연결하지 않습니다.
-- 고2 2학기까지의 평균과 반영량에 고3 1학기만 추가합니다. 목표 역산은 같은 현재 성적·반영량을 공유합니다. 입력을 외부 서버로 보내거나 저장하지 않습니다.
+- 1.00~5.00 전체에서 9등급 추정값·추정 구간·누적비를 비교합니다. 서울 누락 구간은 표본 수를 유지하며 보정합니다. 전국 실측 순위나 대학 합격선이 아닙니다. 입력 기준은 국영수사과 단순 평균입니다.
+- `assets/semester-plan.js`: 성적이 나온 마지막 학기(0~5학기), 학기별 단순 평균, 최종 목표를 받아 남은 학기의 필요 평균과 예상 최종 내신을 계산합니다. 기본은 동일 학기 비중이며 학기별 과목 수로 보정할 수 있습니다. 기존 `#target` 주소는 통합된 02 영역으로 이어집니다. 입력을 외부 서버로 보내거나 저장하지 않습니다.
 - 화면의 숫자는 소수점 둘째 자리까지 표시합니다. 출처·표본·계산식·추정 구간의 정의는 [모델 문서](docs/grade-prediction.md)에 기록합니다. 원문 PDF·학생 자료는 배포하지 않습니다.
-- 계산 검증: `node tests/grade-model.test.cjs`, `node tests/grade-prediction.test.cjs`.
+- 계산 검증: `node tests/grade-model.test.cjs`, `node tests/grade-prediction.test.cjs`, `node tests/semester-plan.test.cjs`.
 
 이 사이트는 생명과학 홈페이지와 독립된 저장소이며 기존 사이트는 수정하지 않습니다.
 
