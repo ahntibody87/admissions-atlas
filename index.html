@@ -8,7 +8,7 @@
  <link rel="canonical" href="https://ahntibody87.github.io/admissions-atlas/">
  <link rel="icon" href="assets/compass.svg" type="image/svg+xml">
  <link rel="preload" href="assets/fonts/cormorant-garamond-medium.ttf" as="font" type="font/ttf" crossorigin>
- <link rel="stylesheet" href="assets/landing.css?v=20261029-2"><link rel="stylesheet" href="assets/site-header.css?v=20261023-layout1"><script src="assets/landing.js?v=20261023-layout1" defer></script>
+ <link rel="stylesheet" href="assets/landing.css?v=20261029-3"><link rel="stylesheet" href="assets/site-header.css?v=20261023-layout1"><script src="assets/landing.js?v=20261029-3" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:site_name" content="ATAA · Ahntibody’s Admissions Atlas">
@@ -44,7 +44,7 @@
     <h1 id="atlas-title">ATAA</h1>
     <h2 class="hero-heading" lang="en"><span>Explore possibility.</span><span>Find your path.</span></h2>
     <p class="hero-description">흩어진 대입 정보를 연결하고,<br>나에게 맞는 다음 선택을 설계합니다.</p>
-    <div class="hero-actions"><a class="button primary" href="explore/">탐색 시작하기 <span aria-hidden="true">⟶</span></a><button class="button secondary" id="about-button" aria-haspopup="dialog">사이트 소개</button></div>
+    <div class="hero-actions"><a class="button primary" id="explore-button" href="explore/">탐색 시작하기 <span aria-hidden="true">⟶</span></a><button class="button secondary" id="about-button" aria-haspopup="dialog">사이트 소개</button></div>
    </div>
    <div class="map-window"><div class="atlas-map">
     <svg class="map-art" viewBox="0 0 1000 800" aria-label="대입 탐색 지도" aria-describedby="map-description">
@@ -71,12 +71,16 @@
     </svg>
    </div></div>
   </section>
-  <nav class="destinations" id="destinations" aria-label="탐색 분야">
-   <a href="goals/"><span class="index">01</span><span>목표 설계</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
-   <a href="archive/"><span class="index">02</span><span>자료 아카이브</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
-   <a href="analysis/"><span class="index">03</span><span>전형 분석</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
-   <a href="simulation/"><span class="index">04</span><span>시뮬레이션</span><span class="destination-arrow" aria-hidden="true">↗</span></a>
-  </nav>
+  <a class="atlas-news" href="grades/#semester"><span class="news-label">최근 반영</span><span class="news-title">학기별 목표 성적 시뮬레이션 개편</span><span class="news-date">2026.10.29</span><span aria-hidden="true">↗</span></a>
+  <section class="explore-panel" id="explore-panel" aria-labelledby="explore-title" hidden inert>
+   <div class="explore-intro"><div><p class="eyebrow">EXPLORE THE ATLAS</p><h2 id="explore-title" tabindex="-1">어디부터 살펴볼까요?</h2></div><button class="explore-back" type="button">← 지도로 돌아가기</button></div>
+   <nav class="explore-choices" aria-label="탐색 분야">
+    <a class="explore-choice" href="goals/"><span class="choice-index">01</span><h3>목표 설계</h3><p>내신과 수능 성적을 바탕으로 수시·정시 목표 설정</p><span class="choice-bottom">목표 설계 열기 <span aria-hidden="true">→</span></span></a>
+    <a class="explore-choice" href="archive/"><span class="choice-index">02</span><h3>자료 아카이브</h3><p>출처와 학년도별로 정리한 대입 자료</p><span class="choice-bottom">자료 아카이브 열기 <span aria-hidden="true">→</span></span></a>
+    <a class="explore-choice" href="analysis/"><span class="choice-index">03</span><h3>전형 분석</h3><p>대학별 전형 기준과 모집인원, 연도별 변화</p><span class="choice-bottom">전형 분석 열기 <span aria-hidden="true">→</span></span></a>
+    <a class="explore-choice" href="simulation/"><span class="choice-index">04</span><h3>시뮬레이션</h3><p>조건에 따른 예상 성적과 목표 성적 계산</p><span class="choice-bottom">시뮬레이션 열기 <span aria-hidden="true">→</span></span></a>
+   </nav>
+  </section>
  </main>
  <footer class="site-footer"><span>LAST UPDATED <time datetime="2026-10-29">Oct 29, 2026</time></span><span class="signature">AHNTIBODY</span></footer>
  <dialog id="about-dialog" aria-labelledby="about-title"><form method="dialog"><button class="dialog-close" aria-label="사이트 소개 닫기" autofocus>닫기 ×</button></form><p class="eyebrow">ABOUT THE ATLAS</p><h2 id="about-title">Ahntibody’s<br>Admissions Atlas</h2><p>크게 달라진 2028 대입 앞에서 학생들이 길을 잃지 않도록, 나침반이 되어 주고 싶다는 마음으로 시작했습니다. ATAA는 서울특별시 고등학교 교사 안영준이 만든 대입 플랫폼입니다.</p><p>공개된 대입 자료를 모아 정리하고, 전형의 변화와 데이터의 차이를 시각적으로 풀어냅니다. 학생들이 자신에게 맞는 목표와 준비 방향을 세우고, 막연한 불안 대신 근거 있는 자신감으로 입시를 준비할 수 있도록 돕고자 합니다.</p><a class="about-link" href="explore/">자료실 둘러보기 ⟶</a></dialog>

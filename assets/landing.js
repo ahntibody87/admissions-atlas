@@ -7,7 +7,7 @@
   const network = document.querySelector('.map-network');
   const fitMap = () => {
     if (!hero || !map || !network) return;
-    const scale = map.getBoundingClientRect().width / 1000;
+    const scale = map.clientWidth / 1000;
     if (!matchMedia('(min-width: 701px)').matches || scale <= 0) {
       network.removeAttribute('transform');
       return;
@@ -44,4 +44,57 @@
     const bounds = about.getBoundingClientRect();
     if (event.target === about && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) about.close();
   });
+
+  const start = document.querySelector('#explore-button');
+  const panel = document.querySelector('#explore-panel');
+  const news = document.querySelector('.atlas-news');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  // The two entrance states manage their own scroll position, including reloads.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  let openingTimer;
+  const showExplore = (animate = true) => {
+    clearTimeout(openingTimer);
+    setMenu(false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    panel.hidden = false;
+    hero.inert = true;
+    news.inert = true;
+    document.body.classList.toggle('explore-instant', !animate || reducedMotion.matches);
+    document.body.classList.add('is-exploring');
+    const finish = () => {
+      document.body.classList.add('explore-ready');
+      panel.inert = false;
+      document.querySelector('#explore-title').focus({ preventScroll: true });
+    };
+    if (!animate || reducedMotion.matches) finish();
+    else openingTimer = setTimeout(finish, 850);
+  };
+  const showMap = () => {
+    clearTimeout(openingTimer);
+    document.body.classList.remove('is-exploring', 'explore-ready', 'explore-instant');
+    panel.hidden = true;
+    panel.inert = true;
+    hero.inert = false;
+    news.inert = false;
+    fitMap();
+    start.focus({ preventScroll: true });
+  };
+  start.addEventListener('click', event => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    history.pushState({ ataaExplore: true }, '', '#explore');
+    showExplore();
+  });
+  document.querySelector('.explore-back').addEventListener('click', () => {
+    if (history.state?.ataaExplore) history.back();
+    else {
+      history.replaceState(null, '', location.pathname + location.search);
+      showMap();
+    }
+  });
+  addEventListener('popstate', () => {
+    if (location.hash === '#explore') showExplore(false);
+    else showMap();
+  });
+  if (location.hash === '#explore') showExplore(false);
 })();
