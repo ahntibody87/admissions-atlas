@@ -28,6 +28,41 @@
   snapshot.className = 'map-snapshot';
   snapshot.setAttribute('aria-hidden', 'true');
   map.after(snapshot);
+  const lights = document.createElement('div');
+  lights.className = 'map-lights';
+  lights.setAttribute('aria-hidden', 'true');
+  snapshot.after(lights);
+  const journeys = ['.route-main', '.route-secondary'].map(selector => {
+    const sprite = document.createElement('span');
+    sprite.className = 'map-light';
+    lights.append(sprite);
+    return { path: map.querySelector(selector), sprite, frames: [] };
+  });
+  let lightAnimations = [];
+  const stopLights = () => { lightAnimations.forEach(animation => animation.cancel()); lightAnimations = []; };
+  const cacheJourneys = () => {
+    const matrix = network.transform.baseVal.consolidate()?.matrix;
+    const scale = map.clientWidth / 1000;
+    journeys.forEach(journey => {
+      const length = journey.path.getTotalLength();
+      journey.frames = Array.from({length:81}, (_, i) => {
+        const progress = i / 80;
+        const point = journey.path.getPointAtLength(length * progress);
+        const next = journey.path.getPointAtLength(Math.min(length, length * progress + 1));
+        const fit = p => matrix ? { x:matrix.a*p.x+matrix.c*p.y+matrix.e, y:matrix.b*p.x+matrix.d*p.y+matrix.f } : p;
+        const p = fit(point), n = fit(next);
+        const angle = Math.atan2(n.y-p.y, n.x-p.x) * 180 / Math.PI;
+        return { offset:progress, transform:`translate3d(${(p.x*scale).toFixed(2)}px,${(p.y*scale).toFixed(2)}px,0) rotate(${angle.toFixed(1)}deg)`, opacity:i===0||i===80?0:1 };
+      });
+    });
+  };
+  const playLights = () => {
+    stopLights();
+    if (!document.body.classList.contains('snapshot-ready')) return;
+    journeys.forEach((journey, i) => lightAnimations.push(journey.sprite.animate(journey.frames, {
+      duration:i ? 1050 : 740, delay:i ? 170 : 130, easing:'cubic-bezier(.2,.55,.35,1)', fill:'both'
+    })));
+  };
   const terrain = fetch(new URL('atlas-terrain.svg', document.currentScript.src))
     .then(response => { if (!response.ok) throw new Error('terrain'); return response.text(); });
   let snapshotRevision = 0;
@@ -47,10 +82,22 @@
       copiedNodes.forEach((node, i) => {
         const style = getComputedStyle(originalNodes[i]);
         for (const property of properties) node.style.setProperty(property, style.getPropertyValue(property));
+        const bluePalette = {
+          'rgb(23, 63, 59)':'#24486e', 'rgb(171, 114, 76)':'#3977ce',
+          'rgb(247, 245, 238)':'#eef4fd', 'rgb(49, 94, 85)':'#4e7da8',
+          'rgb(184, 172, 144)':'#b2c4de', 'rgb(167, 169, 140)':'#b2c4de',
+          'rgb(108, 123, 109)':'#718ba9', 'rgb(177, 124, 83)':'#6193d2'
+        };
+        for (const property of ['fill','stroke']) {
+          const color = bluePalette[style.getPropertyValue(property)];
+          if (color) node.style.setProperty(property, color);
+        }
       });
       copy.setAttribute('width', map.clientWidth);
       copy.setAttribute('height', map.clientHeight);
-      copy.querySelector('image').setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(terrainSource));
+      const blueTerrain = terrainSource.replaceAll('#929c83','#8da8c6').replaceAll('#b6b8a1','#bdcee2');
+      copy.querySelector('image').setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(blueTerrain));
+      copy.querySelectorAll('#paper stop').forEach((stop, i) => stop.setAttribute('stop-color', i ? '#dce8f8' : '#f7faff'));
       copy.querySelectorAll('.route-main,.route-secondary').forEach(path => path.style.strokeDashoffset = '0');
       copy.querySelectorAll('.route-dotted').forEach(path => {
         path.style.strokeDasharray = '.004 .008';
@@ -77,6 +124,7 @@
           context.fillRect(0, 0, snapshot.width, snapshot.height);
         }
         document.body.classList.add('snapshot-ready');
+        cacheJourneys();
       } finally { URL.revokeObjectURL(url); }
     } catch { /* Keep the original map usable and use a simple fade instead. */ }
   };
@@ -131,6 +179,7 @@
     const instant = !animate || reducedMotion.matches;
     document.body.classList.toggle('explore-instant', instant);
     const finish = () => {
+      stopLights();
       document.body.classList.add('explore-ready');
       panel.inert = false;
       document.querySelector('#explore-title').focus({ preventScroll: true });
@@ -138,7 +187,7 @@
     const begin = () => {
       document.body.classList.add('is-exploring');
       if (instant) finish();
-      else openingTimer = setTimeout(finish, 850);
+      else { playLights(); openingTimer = setTimeout(finish, 1550); }
     };
     if (instant) begin();
     else {
@@ -152,6 +201,7 @@
   const showMap = () => {
     clearTimeout(openingTimer);
     cancelAnimationFrame(openingFrame);
+    stopLights();
     document.body.classList.remove('is-exploring', 'explore-ready', 'explore-instant', 'explore-preparing');
     panel.hidden = true;
     panel.inert = true;

@@ -42,12 +42,16 @@ main{position:relative}
 .is-exploring{background:#eef4fd}
 .hero-copy{transition:opacity .24s ease,transform .5s ease}
 .atlas-map{transform-origin:60% 42%}
-.is-exploring .atlas-map{transition:transform .85s cubic-bezier(.22,.7,.15,1),opacity .65s .2s ease}
+.is-exploring .atlas-map{transition:transform 1.55s cubic-bezier(.18,.55,.3,1),opacity .45s 1.05s ease}
 .map-window{mask-image:none}
 .map-window:after{content:'';position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(transparent,var(--paper));pointer-events:none}
 .map-snapshot{position:absolute;inset:0;width:100%;height:100%;visibility:hidden;pointer-events:none}
 .snapshot-ready.is-exploring .map-art{visibility:hidden}
 .snapshot-ready.is-exploring .map-snapshot{visibility:visible}
+.map-lights{position:absolute;inset:0;visibility:hidden;pointer-events:none}
+.snapshot-ready.is-exploring .map-lights{visibility:visible}
+.map-light{position:absolute;left:-12px;top:-12px;width:24px;height:24px;opacity:0;background:radial-gradient(circle,#fff 0 9%,#e6f6ff 12% 20%,#8dcaffb3 30%,#67acff40 52%,transparent 72%)}
+.map-light:before{content:'';position:absolute;right:12px;top:7px;width:48px;height:10px;border-radius:50%;background:linear-gradient(90deg,transparent,#76b5ff45,#cbeaffc9);pointer-events:none}
 .explore-preparing .route-main,.explore-preparing .route-secondary{animation:none;stroke-dashoffset:0}
 .explore-preparing .route-dotted{animation:none;opacity:.8}
 .explore-preparing .front-sheet,.explore-preparing .origin rect{filter:none}
@@ -75,16 +79,17 @@ main{position:relative}
 .explore-choice:hover .choice-bottom span{transform:translateX(4px)}
 .is-exploring{--paper:#eef4fd;--ink:#24334a;--copper:#235bc1;--line:#d5dfee;--muted:#57677c}
 .is-exploring .hero-copy{opacity:0;transform:translateX(-24px)}
-.is-exploring .atlas-map{opacity:.08}
-.snapshot-ready.is-exploring .atlas-map{transform:translateX(-14%) scale(1.4)}
+.is-exploring .atlas-map{opacity:0}
+.snapshot-ready.is-exploring .atlas-map{transform:translateX(-12%) scale(1.32)}
 .is-exploring .atlas-news{visibility:hidden;opacity:0}
-.is-exploring .explore-intro{animation:choice-arrive .45s .35s both}
-.is-exploring .explore-choice{animation:choice-arrive .45s .4s both}
-.is-exploring .explore-choice:nth-child(2){animation-delay:.46s}
-.is-exploring .explore-choice:nth-child(3){animation-delay:.52s}
-.is-exploring .explore-choice:nth-child(4){animation-delay:.58s}
+.is-exploring .explore-intro{animation:choice-arrive .4s .95s both}
+.is-exploring .explore-choice{animation:choice-arrive .4s 1.03s both}
+.is-exploring .explore-choice:nth-child(2){animation-delay:1.07s}
+.is-exploring .explore-choice:nth-child(3){animation-delay:1.11s}
+.is-exploring .explore-choice:nth-child(4){animation-delay:1.15s}
 .explore-ready .hero{visibility:hidden}
 .snapshot-ready.explore-ready .map-snapshot{visibility:hidden}
+.snapshot-ready.explore-ready .map-lights{visibility:hidden}
 .explore-ready .explore-intro,.explore-ready .explore-choice{opacity:1}
 .explore-instant .explore-intro,.explore-instant .explore-choice{animation:none}
 @keyframes choice-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
@@ -95,7 +100,7 @@ main{position:relative}
  .is-exploring .hero{position:absolute;inset:0;height:100%;overflow:hidden}
  .is-exploring .map-window{position:absolute;inset:0;overflow:visible}
  .is-exploring .atlas-map{margin-top:60px;transform-origin:center top}
- .snapshot-ready.is-exploring .atlas-map{transform:translateY(24px) scale(1.4)}
+ .snapshot-ready.is-exploring .atlas-map{transform:translateY(20px) scale(1.32)}
  .map-snapshot{mask-image:none}
  .explore-panel{padding:28px 0;gap:22px;left:6%;right:6%}
  .explore-panel:before{inset:0 -6.82%}
