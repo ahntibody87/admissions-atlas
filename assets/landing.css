@@ -39,10 +39,18 @@ dialog{color:var(--ink);background:var(--paper);border:1px solid var(--line);bor
 /* Map-to-directory entrance: keep the established type and header geometry. */
 [hidden]{display:none!important}
 main{position:relative}
-body{transition:background-color .8s ease,color .8s ease}
-.site-header{transition:background-color .8s ease,color .8s ease,border-color .8s ease}
+.is-exploring{background:#eef4fd}
 .hero-copy{transition:opacity .24s ease,transform .5s ease}
-.atlas-map{transform-origin:60% 42%;transition:transform .85s cubic-bezier(.22,.7,.15,1),opacity .65s .2s ease}
+.atlas-map{transform-origin:60% 42%}
+.is-exploring .atlas-map{transition:transform .85s cubic-bezier(.22,.7,.15,1),opacity .65s .2s ease}
+.map-window{mask-image:none}
+.map-window:after{content:'';position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(transparent,var(--paper));pointer-events:none}
+.map-snapshot{position:absolute;inset:0;width:100%;height:100%;visibility:hidden;pointer-events:none}
+.snapshot-ready.is-exploring .map-art{visibility:hidden}
+.snapshot-ready.is-exploring .map-snapshot{visibility:visible}
+.explore-preparing .route-main,.explore-preparing .route-secondary{animation:none;stroke-dashoffset:0}
+.explore-preparing .route-dotted{animation:none;opacity:.8}
+.explore-preparing .front-sheet,.explore-preparing .origin rect{filter:none}
 .atlas-news{display:flex;align-items:center;gap:18px;border-top:1px solid #b9c3b5;min-height:50px;font-size:12px;position:relative;z-index:3;transition:opacity .2s}
 .news-label{font-size:10px;letter-spacing:.08em;color:var(--copper);white-space:nowrap}
 .news-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -65,12 +73,10 @@ body{transition:background-color .8s ease,color .8s ease}
 .choice-bottom span{font-size:23px;line-height:1;color:#235bc1;transition:transform .2s}
 .explore-choice:hover{border-color:#9bb7df;background:#fff;box-shadow:0 10px 28px #345c9410}
 .explore-choice:hover .choice-bottom span{transform:translateX(4px)}
-.is-exploring{--paper:#eef4fd;--ink:#24334a;--copper:#235bc1;--line:#d5dfee;--muted:#57677c;background:#eef4fd}
+.is-exploring{--paper:#eef4fd;--ink:#24334a;--copper:#235bc1;--line:#d5dfee;--muted:#57677c}
 .is-exploring .hero-copy{opacity:0;transform:translateX(-24px)}
-.is-exploring .atlas-map{transform:translateX(-14%) scale(1.55);opacity:.08}
-.is-exploring .map-window{mask-image:none}
-.is-exploring .map-network{animation:map-depart .8s both}
-.is-exploring .route-main,.is-exploring .route-secondary{stroke:#6b9bbe;stroke-width:3;animation:explore-route .65s ease both}
+.is-exploring .atlas-map{opacity:.08}
+.snapshot-ready.is-exploring .atlas-map{transform:translateX(-14%) scale(1.4)}
 .is-exploring .atlas-news{visibility:hidden;opacity:0}
 .is-exploring .explore-intro{animation:choice-arrive .45s .35s both}
 .is-exploring .explore-choice{animation:choice-arrive .45s .4s both}
@@ -78,18 +84,19 @@ body{transition:background-color .8s ease,color .8s ease}
 .is-exploring .explore-choice:nth-child(3){animation-delay:.52s}
 .is-exploring .explore-choice:nth-child(4){animation-delay:.58s}
 .explore-ready .hero{visibility:hidden}
+.snapshot-ready.explore-ready .map-snapshot{visibility:hidden}
 .explore-ready .explore-intro,.explore-ready .explore-choice{opacity:1}
 .explore-instant .explore-intro,.explore-instant .explore-choice{animation:none}
 @keyframes choice-arrive{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@keyframes map-depart{0%,35%{opacity:1}100%{opacity:0}}
-@keyframes explore-route{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-@media(min-width:701px){main{grid-template-rows:minmax(0,1fr) 50px}.is-exploring main{grid-template-rows:minmax(0,1fr) 0px}}
+@media(min-width:701px){main{grid-template-rows:minmax(0,1fr) 50px}}
 @media(max-width:700px){
  .atlas-news{gap:10px;min-height:58px;font-size:11px}.news-date{display:none}.atlas-news>span:last-child{margin-left:auto}
  .is-exploring main{height:calc(100svh - 136px);min-height:760px}
  .is-exploring .hero{position:absolute;inset:0;height:100%;overflow:hidden}
  .is-exploring .map-window{position:absolute;inset:0;overflow:visible}
- .is-exploring .atlas-map{margin-top:60px;transform:translateY(30px) scale(1.8);transform-origin:center top}
+ .is-exploring .atlas-map{margin-top:60px;transform-origin:center top}
+ .snapshot-ready.is-exploring .atlas-map{transform:translateY(24px) scale(1.4)}
+ .map-snapshot{mask-image:none}
  .explore-panel{padding:28px 0;gap:22px;left:6%;right:6%}
  .explore-panel:before{inset:0 -6.82%}
  .explore-intro{align-items:flex-start;flex-direction:column;gap:8px}

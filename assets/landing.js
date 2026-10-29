@@ -6,7 +6,7 @@
   const map = document.querySelector('.map-art');
   const network = document.querySelector('.map-network');
   const fitMap = () => {
-    if (!hero || !map || !network) return;
+    if (!hero || !map || !network || document.body.classList.contains('is-exploring')) return;
     const scale = map.clientWidth / 1000;
     if (!matchMedia('(min-width: 701px)').matches || scale <= 0) {
       network.removeAttribute('transform');
@@ -20,8 +20,72 @@
     // alone can push Grade Planning above the hero while keeping the last stop in view.
     network.setAttribute('transform', `translate(${((1 - fit) * 900).toFixed(2)} ${shift.toFixed(2)}) scale(${fit.toFixed(4)})`);
   };
-  if (hero && network) new ResizeObserver(fitMap).observe(hero);
+  if (hero && network) new ResizeObserver(() => { fitMap(); scheduleMap(); }).observe(hero);
   fitMap();
+  // Cache a bitmap of the fitted map while idle. Zooming this bitmap avoids
+  // rerasterizing thousands of terrain segments and SVG masks on every frame.
+  const snapshot = document.createElement('canvas');
+  snapshot.className = 'map-snapshot';
+  snapshot.setAttribute('aria-hidden', 'true');
+  map.after(snapshot);
+  const terrain = fetch(new URL('atlas-terrain.svg', document.currentScript.src))
+    .then(response => { if (!response.ok) throw new Error('terrain'); return response.text(); });
+  let snapshotRevision = 0;
+  let snapshotTimer;
+  const cacheMap = async () => {
+    if (document.body.classList.contains('is-exploring')) return;
+    const revision = ++snapshotRevision;
+    document.body.classList.remove('snapshot-ready');
+    try {
+      await document.fonts.ready;
+      const terrainSource = await terrain;
+      if (revision !== snapshotRevision || document.body.classList.contains('is-exploring')) return;
+      const copy = map.cloneNode(true);
+      const originalNodes = [map, ...map.querySelectorAll('*')];
+      const copiedNodes = [copy, ...copy.querySelectorAll('*')];
+      const properties = ['fill','stroke','stroke-width','stroke-linejoin','stroke-linecap','paint-order','font-family','font-size','font-weight','letter-spacing','text-anchor','opacity'];
+      copiedNodes.forEach((node, i) => {
+        const style = getComputedStyle(originalNodes[i]);
+        for (const property of properties) node.style.setProperty(property, style.getPropertyValue(property));
+      });
+      copy.setAttribute('width', map.clientWidth);
+      copy.setAttribute('height', map.clientHeight);
+      copy.querySelector('image').setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(terrainSource));
+      copy.querySelectorAll('.route-main,.route-secondary').forEach(path => path.style.strokeDashoffset = '0');
+      copy.querySelectorAll('.route-dotted').forEach(path => {
+        path.style.strokeDasharray = '.004 .008';
+        path.style.opacity = '.8';
+      });
+      const blob = new Blob([new XMLSerializer().serializeToString(copy)], {type:'image/svg+xml'});
+      const url = URL.createObjectURL(blob);
+      try {
+        const bitmap = new Image();
+        bitmap.src = url;
+        await bitmap.decode();
+        if (revision !== snapshotRevision || document.body.classList.contains('is-exploring')) return;
+        const ratio = Math.min(devicePixelRatio || 1, 1.5);
+        snapshot.width = Math.round(map.clientWidth * ratio);
+        snapshot.height = Math.round(map.clientHeight * ratio);
+        const context = snapshot.getContext('2d');
+        context.drawImage(bitmap, 0, 0, snapshot.width, snapshot.height);
+        if (matchMedia('(min-width:701px)').matches) {
+          const fade = context.createLinearGradient(0, 0, snapshot.width * .15, 0);
+          fade.addColorStop(0, 'transparent');
+          fade.addColorStop(1, '#000');
+          context.globalCompositeOperation = 'destination-in';
+          context.fillStyle = fade;
+          context.fillRect(0, 0, snapshot.width, snapshot.height);
+        }
+        document.body.classList.add('snapshot-ready');
+      } finally { URL.revokeObjectURL(url); }
+    } catch { /* Keep the original map usable and use a simple fade instead. */ }
+  };
+  const scheduleMap = () => {
+    clearTimeout(snapshotTimer);
+    snapshotTimer = setTimeout(cacheMap, 160);
+  };
+  new ResizeObserver(scheduleMap).observe(map);
+  terrain.catch(() => {});
   const toggle = document.querySelector('.menu-toggle');
   const navigation = document.querySelector('#navigation');
   const setMenu = open => {
@@ -52,31 +116,49 @@
   // The two entrance states manage their own scroll position, including reloads.
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   let openingTimer;
+  let openingFrame;
+  const prepareExplore = () => document.body.classList.add('explore-preparing');
+  start.addEventListener('pointerenter', prepareExplore);
+  start.addEventListener('focus', prepareExplore);
   const showExplore = (animate = true) => {
     clearTimeout(openingTimer);
+    cancelAnimationFrame(openingFrame);
     setMenu(false);
     window.scrollTo({ top: 0, behavior: 'instant' });
     panel.hidden = false;
     hero.inert = true;
     news.inert = true;
-    document.body.classList.toggle('explore-instant', !animate || reducedMotion.matches);
-    document.body.classList.add('is-exploring');
+    const instant = !animate || reducedMotion.matches;
+    document.body.classList.toggle('explore-instant', instant);
     const finish = () => {
       document.body.classList.add('explore-ready');
       panel.inert = false;
       document.querySelector('#explore-title').focus({ preventScroll: true });
     };
-    if (!animate || reducedMotion.matches) finish();
-    else openingTimer = setTimeout(finish, 850);
+    const begin = () => {
+      document.body.classList.add('is-exploring');
+      if (instant) finish();
+      else openingTimer = setTimeout(finish, 850);
+    };
+    if (instant) begin();
+    else {
+      prepareExplore();
+      // Paint the static SVG once before animating its composited layer.
+      openingFrame = requestAnimationFrame(() => {
+        openingFrame = requestAnimationFrame(begin);
+      });
+    }
   };
   const showMap = () => {
     clearTimeout(openingTimer);
-    document.body.classList.remove('is-exploring', 'explore-ready', 'explore-instant');
+    cancelAnimationFrame(openingFrame);
+    document.body.classList.remove('is-exploring', 'explore-ready', 'explore-instant', 'explore-preparing');
     panel.hidden = true;
     panel.inert = true;
     hero.inert = false;
     news.inert = false;
     fitMap();
+    scheduleMap();
     start.focus({ preventScroll: true });
   };
   start.addEventListener('click', event => {
