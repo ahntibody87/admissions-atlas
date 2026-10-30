@@ -7,7 +7,7 @@
 - 공개할 비개인 자료만 담습니다. 사용자가 선택하지 않은 과거 작업물은 가져오지 않습니다.
 - 자료는 대화에서 받아 분석하고 알맞은 메뉴에 반영합니다. 원본 업로드 자체를 인터넷 원문 재배포 허가로 간주하지 않습니다.
 - 분석의 출처·학년도·확인일을 기록하고 사실과 해석, 시뮬레이션의 가정을 구분합니다.
-- 메인은 index.html + assets/landing.css + assets/landing.js이며 탐색 주소는 위쪽 메뉴·지도·탐색 시작 후 네 분야 카드를 함께 맞춥니다. 메인 하단에는 최근 반영 소식 한 줄을 표시합니다.
+- 메인은 index.html + assets/landing.css + assets/landing.js이며 탐색 주소는 위쪽 메뉴·지도·탐색 시작 후 네 분야 카드를 함께 맞춥니다. 메인 하단에는 학생에게 의미 있는 최근 반영 소식을 최신순으로 최대 3개 표시합니다. 개별 날짜는 data-updated에만 기록하고 화면의 날짜·화살표는 숨깁니다. 각 소식은 변경된 도구·자료에 직접 연결합니다.
 - 내부 페이지는 `assets/analysis.css`의 화이트·블루 색상, Pretendard 글꼴, 공통 제목·카드·푸터와 `assets/site-header.css`의 상단 헤더를 공유합니다. 01~04는 각각 `grades/`, `archive/`, `analysis/`, `simulation/`입니다.
 - `explore/`는 같은 디자인의 탐색 안내이며, 예전 `#archive`, `#simulation`, `#analysis`, `#grade-planning` 링크는 해당 독립 페이지로 이동합니다. 자료와 도구 목록은 `assets/content.js`에서 관리하고 `assets/app.js`가 표시합니다.
 - 내신 설계의 기본 주소는 /admissions-atlas/grades/입니다. grades.html은 이전 주소 호환을 위한 이동 페이지로 유지합니다.

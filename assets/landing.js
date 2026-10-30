@@ -160,14 +160,19 @@
   const start = document.querySelector('#explore-button');
   const panel = document.querySelector('#explore-panel');
   const news = document.querySelector('.atlas-news');
+  const newsList = news.querySelector('.news-list');
+  const latestNews = [...newsList.children]
+    .sort((a, b) => b.dataset.updated.localeCompare(a.dataset.updated))
+    .slice(0, 3);
+  newsList.replaceChildren(...latestNews);
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   // The two entrance states manage their own scroll position, including reloads.
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   let openingTimer;
   let openingFrame;
+  // Prepare only after activation: hover or focus must not cancel the map's
+  // initial route drawing, including when the pointer stays here on reload.
   const prepareExplore = () => document.body.classList.add('explore-preparing');
-  start.addEventListener('pointerenter', prepareExplore);
-  start.addEventListener('focus', prepareExplore);
   const showExplore = (animate = true) => {
     clearTimeout(openingTimer);
     cancelAnimationFrame(openingFrame);
